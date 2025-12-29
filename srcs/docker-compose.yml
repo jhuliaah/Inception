@@ -59,7 +59,7 @@ services:
       - "3306"
     restart: on-failure
 
-    networks:
+  networks:
       Inception:
         name: inception
         driver: bridge
