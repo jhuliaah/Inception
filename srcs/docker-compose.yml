@@ -36,8 +36,8 @@ services:
     build: ./requirements/wordpress
     networks:
       - Inception
-    volumens:
-      - wordpress:/var/www]/html
+    volumes:
+      - wordpress:/var/www/html
     depends_on:
       - mariadb
     env_file:
@@ -48,7 +48,7 @@ services:
 
   mariadb:
     container_name: mariadb
-    build: .requirements/mariadb
+    build: ./srcs/requirements/mariadb
     networks:
       - Inception
     volumes:
@@ -59,7 +59,7 @@ services:
       - "3306"
     restart: on-failure
 
-  networks:
-      Inception:
-        name: inception
-        driver: bridge
+networks:
+    Inception:
+      name: inception
+      driver: bridge
