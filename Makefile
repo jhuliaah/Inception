@@ -2,7 +2,7 @@
 # Variáveis de configuração
 NAME		= inception
 SRCS_DIR	= ./srcs
-DOCKER_CONF	= $(SRCS_DIR)/docker-compose.yml
+DOCKER_CONF	= $(SRCS_DIR)/docker compose.yml
 # O caminho abaixo usa o seu login da 42 conforme exigido 
 DATA_PATH	= /home/jhualves/data
 
@@ -17,8 +17,10 @@ all: build up
 # O @ suprime a exibição do comando no terminal
 build:
 	@echo "$(GREEN)Criando diretórios de volumes em $(DATA_PATH)...$(RESET)"
-	@mkdir -p $(DATA_PATH)/mariadb
-	@mkdir -p $(DATA_PATH)/wordpress
+	@sudo mkdir -p $(DATA_PATH)/mariadb
+	@sudo mkdir -p $(DATA_PATH)/wordpress
+	@sudo chmod 777 $(DATA_PATH)/mariadb
+	@sudo chmod 777 $(DATA_PATH)/wordpress
 	@echo "$(GREEN)Construindo as imagens do Docker...$(RESET)"
 	@docker-compose -f $(DOCKER_CONF) build
 
@@ -46,7 +48,7 @@ clean: down
 # USE COM CAUTELA: isso apagará seu banco de dados e arquivos do WordPress
 fclean: clean
 	@echo "$(RED)Removendo volumes e pastas de dados...$(RESET)"
-	@docker volume rm $$(docker volume ls -q) 2>/dev/null || true
+	@if [ $$(docker volume ls -q | wc -l) -gt 0 ]; then docker volume rm $$(docker volume ls -q); fi
 	@sudo rm -rf $(DATA_PATH)
 
 # Reinicia o projeto do zero
