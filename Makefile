@@ -2,7 +2,7 @@
 # Variáveis de configuração
 NAME		= inception
 SRCS_DIR	= ./srcs
-DOCKER_CONF	= $(SRCS_DIR)/docker compose.yml
+DOCKER_CONF	= $(SRCS_DIR)/docker-compose.yml
 # O caminho abaixo usa o seu login da 42 conforme exigido 
 DATA_PATH	= /home/jhualves/data
 
@@ -22,22 +22,22 @@ build:
 	@sudo chmod 777 $(DATA_PATH)/mariadb
 	@sudo chmod 777 $(DATA_PATH)/wordpress
 	@echo "$(GREEN)Construindo as imagens do Docker...$(RESET)"
-	@docker compose -f $(DOCKER_CONF) build
+	@docker compose -f "$(DOCKER_CONF)" build
 
 # Sobe os containers em modo "detached" (segundo plano)
 up:
 	@echo "$(GREEN)Iniciando os containers...$(RESET)"
-	@docker compose -f $(DOCKER_CONF) up -d
+	@docker compose -f "$(DOCKER_CONF)" up -d
 
 # Para os containers sem removê-los
 stop:
 	@echo "$(RED)Parando os containers...$(RESET)"
-	@docker compose -f $(DOCKER_CONF) stop
+	@docker compose -f "$(DOCKER_CONF)" stop
 
 # Remove os containers e as redes [cite: 91, 139]
 down:
 	@echo "$(RED)Removendo containers e redes...$(RESET)"
-	@docker compose -f $(DOCKER_CONF) down
+	@docker compose -f "$(DOCKER_CONF)" down
 
 # Limpeza completa (containers, imagens e redes)
 clean: down
