@@ -11,11 +11,11 @@ COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d
 WORKDIR /var/www/html
 
 #COPY SETUP SCRIPT AND ADD RIGHTS
-COPY ./tools/script.sh .
-RUN chmod +x script.sh
+COPY ./tools/wp_config.sh /usr/local/bin/wp_config.sh
+RUN chmod +x /usr/local/bin/wp_config.sh
 
 #SET PORTS 9000 LIKE SUBJECT ASK
 EXPOSE 9000
 
-ENTRYPOINT ["/var/www/html/script.sh"]
+ENTRYPOINT ["/usr/local/bin/wp_config.sh"]
 CMD ["php-fpm8.2", "-F"]

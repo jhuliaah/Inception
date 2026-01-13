@@ -9,11 +9,11 @@ COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 RUN mkdir -p /entrypoint-initdb.d
 COPY ./tools/init.sql.template /entrypoint-initdb.d/
-RUN mkdir -p /run/mysql && chown -R mysql:mysql /run/mysqld
+RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
 
 #COPY ENTRYPOINT AND ADD EXECUTION PERMISSIONS
-COPY ./tools/entrypoint.sh ./
-RUN chmod +x entrypoint.sh
+COPY ./tools/setup.sh /usr/local/bin/setup.sh
+RUN chmod +x /usr/local/bin/setup.sh
 
 ENTRYPOINT ["/usr/local/bin/setup.sh"]
 CMD ["mariadb", "--user=mysql", "--bind-address=0.0.0.0"]
