@@ -1,4 +1,6 @@
 
+#!/bin/bash
+set -e
 if [ -f /entrypoint-initdb.d/init.sql.template ]; then
     # Substitute the variables and generates the final SQL archive
     envsubst < /entrypoint-initdb.d/init.sql.template > /etc/mysql/init.sql

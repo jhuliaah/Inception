@@ -23,6 +23,11 @@ build:
 	@sudo chmod 777 $(DATA_PATH)/wordpress
 	@echo "$(GREEN)Construindo as imagens do Docker...$(RESET)"
 	@docker compose -f "$(DOCKER_CONF)" build
+	@sudo chown -R www-data:www-data $(DATA_PATH)/wordpress
+	@sudo chown -R www-data:www-data $(DATA_PATH)/mariadb
+	@sudo chmod -R 755 $(DATA_PATH)/wordpress
+	@sudo chmod -R 755 $(DATA_PATH)/mariadb
+	@sudo chmod +x $(SRCS_DIR)/requirements/wordpress/tools/wp_config.sh
 
 # Sobe os containers em modo "detached" (segundo plano)
 up:
@@ -43,6 +48,7 @@ down:
 clean: down
 	@echo "$(RED)Limpando imagens do Docker...$(RESET)"
 	@docker rmi -f $$(docker images -qa) 2>/dev/null || true
+	@docker compose -f "$(DOCKER_CONF)" restart nginx
 
 # Limpeza total: remove volumes e as pastas físicas no host [cite: 89, 90, 108]
 # USE COM CAUTELA: isso apagará seu banco de dados e arquivos do WordPress

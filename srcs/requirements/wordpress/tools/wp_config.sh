@@ -1,4 +1,4 @@
-
+#!/bin/bash
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 chmod +x wp-cli.phar
@@ -17,5 +17,19 @@ chmod +x wp-cli.phar
 
 ./wp-cli.phar plugin update --all --allow-root
 ./wp-cli.phar redis enable --allow-root
+
+sleep 10
+
+if [ ! -f /var/www/html/wp-config.php ]; then
+
+    echo "Initializing WordPress configuration file..."
+    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    chmod +x wp-cli.phar
+    ./wp-cli.phar config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASSWORD --dbhost=mariadb --allow-root
+    ./wp-cli.phar user create $WP_USER2 "${WP_USER}@student.42.fr" --role=author --user_pass=$WP_PASS2 --allow-root
+    ./wp-cli.phar core install --url=$DOMAIN_NAME --title=inception --admin_user=$WP_USER --admin_password=$WP_PASS --admin_email=$WP_MAIL@student.42.fr --allow-root
+    ./wp-cli.phar redis enable --allow-root
+
+fi
 
 exec "$@"
