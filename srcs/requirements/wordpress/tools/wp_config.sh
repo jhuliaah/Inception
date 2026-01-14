@@ -30,6 +30,8 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     ./wp-cli.phar core install --url=$DOMAIN_NAME --title=inception --admin_user=$WP_USER --admin_password=$WP_PASS --admin_email=$WP_MAIL@student.42.fr --allow-root
     ./wp-cli.phar redis enable --allow-root
 
+    echo "WordPress configuration file created."
+
 fi
 
 exec "$@"
